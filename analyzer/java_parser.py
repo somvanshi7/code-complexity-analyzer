@@ -52,6 +52,12 @@ class JavaParser:
             if re.search(r'}\s*$', line) and depth > 0:
                 depth -= 1
 
+            if (
+                re.search(r'mid\s*=\s*.*\/\s*2', self.code)
+                and re.search(r'(left|right)\s*=\s*mid', self.code)
+            ):
+                self.log_loops += 1
+
     # =================================================
     def _detect_recursion(self):
         if not self.function_name:

@@ -58,6 +58,14 @@ class CPPParser:
             if re.search(r'}\s*$', line) and depth > 0:
                 depth -= 1
 
+            # Detect binary search style halving
+            if (
+                re.search(r'mid\s*=\s*.*\/\s*2', self.code)
+                and re.search(r'(left|right)\s*=\s*mid', self.code)
+            ):
+                self.log_loops += 1
+
+
     # =================================================
     # RECURSION DETECTION (SELF-CALL ONLY)
     # =================================================
